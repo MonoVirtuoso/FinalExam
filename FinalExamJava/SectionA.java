@@ -12,12 +12,15 @@ public class SectionA {
 	{
         SectionA method = new SectionA();
         
-        String userInput, password, adminPassword = "1EE7"; 
-        int userChoice = 1, userAnswer1 = 10, userAnswer2 = 10, a = 0, b=0, userAnswer;
+        String userInput = "", password, adminPassword = "1EE7"; 
+        int userChoice = 1, userAnswer1 = 10, userAnswer2 = 10, userAnswer3 = 10, a = 0, b=0, userAnswer, nameFlag = 0, userAnswer4 = 10;
         ArrayList<String> VehicleData = new ArrayList<String>(); //User to store specific parts of user data; names, age, email, etc.
         ArrayList<String> VehicleLogs = new ArrayList<String>(); //Used in order to store entirety of user data
         ArrayList<String> ManagerData = new ArrayList<String>(); //User to store specific parts of user data; names, age, email, etc.
         ArrayList<String> ManagerLogs = new ArrayList<String>(); //Used in order to store entirety of user data
+        ArrayList<String> ContactLogs = new ArrayList<String>();
+        ArrayList<String> VisitorLogs = new ArrayList<String>();
+
         Scanner ue = new Scanner (System.in);
         System.out.println("Welcome to ABC Transportation Vehicle Registry!\n\n");
         while (userAnswer1 != 0) 
@@ -28,202 +31,374 @@ public class SectionA {
             switch (userAnswer1) 
             {
                 case 1:      
-                    System.out.println("Password: ");
+                System.out.println("Password: ");
+                password = ue.next();
+                password.equals(adminPassword);
+                while (password.equals(adminPassword) == false)
+                {
+                    System.out.println("Invalid password, please try again or enter 0 to return to main menu: ");
                     password = ue.next();
-                    password.equals(adminPassword);
-                    while (password.equals(adminPassword) == false)
+                }
+                while (userAnswer2 != 0)
+                {
+                    userChoice = 1;
+                    System.out.println("\n1. Create Manager\n2. New Truck\n3. Search Truck\n4. Deactivate Truck Status\n5. Reactivate Truck Status\n6. Contact Requests\n7. View Managers\n0. Return to log in menu\n");
+                    userAnswer2 = method.verifyInputInt(0, 7);
+                    switch (userAnswer2) 
                     {
-                        System.out.println("Invalid password, please try again or enter 0 to return to main menu: ");
-                        password = ue.next();
-                    }
-                    while (userAnswer2 != 0)
-                    {
-                        userChoice = 1;
-                        System.out.println("\n1. Create Manager\n2. New Truck\n3. Search Truck\n4. Deactivate Truck Status\n5. Reactivate Truck Status\n6. Contact Requests\n0. Return to log in menu\n");
-                        userAnswer2 = method.verifyInputInt(0, 5);
-                        switch (userAnswer2) 
+                        case 1:
+                        String[] ManagerOutput = {"Date of Joining: ", "Salary: ", "First Name: ", "Last Name: ", "Age: ", "Email: ", 
+                        "Address: ", "Contact No. :", "Username: ", "Branch Number: "};
+
+                        while (userChoice != 0)
                         {
-                            case 1:
-                            String[] ManagerOutput = {"Date of Joining: ", "Salary: ", "First Name: ", "Last Name: ", "Age: ", "Email: ", 
-                            "Address: ", "Contact No. :"};
-
-                            while (userChoice != 0)
+                            String aString = Integer.toString(a);
+                            ManagerData.add(0,  aString);
+                            for (int i = 0; i < 10; i++)
                             {
-                                String aString = Integer.toString(a);
-                                ManagerData.add(0,  aString);
-                                for (int i = 0; i < 8; i++)
+                                System.out.println(ManagerOutput[i]);
+                                if (i == 1 || i == 4 || i == 7) 
                                 {
-                                    System.out.println(ManagerOutput[i]);
-                                    if (i == 1 || i == 4 || i == 7) 
+                                    userInput = method.verifyInput();
+                                }
+                                else if (i == 10)
+                                {
+                                    while (Integer.parseInt(userInput) < 0 && Integer.parseInt(userInput) > 5)
                                     {
                                         userInput = method.verifyInput();
                                     }
-                                    else
-                                    {
-                                        userInput = ue.next();
-                                    }
-                                    ManagerData.add(userInput);
                                 }
-                                StringBuffer stuff = new StringBuffer();
-                                for (String s : ManagerData) {
-                                    stuff.append(s);
-                                    stuff.append(" ");
-                                }
-                                String str = stuff.toString();
-                                ManagerLogs.add(str);
-                                System.out.println("Is the following information correct?");
-                                System.out.println(ManagerLogs.get(a)); 
-                                System.out.print("\n\nEnter 1 if you would like to restart and change any wrong information or enter 0 to continue: ");
-                                userChoice = method.verifyInputInt(0, 1);
-                                if (userChoice == 1)
+                                else
                                 {
-                                    ManagerLogs.remove(a);
-                                    ManagerData.clear();
+                                    userInput = ue.next();
                                 }
-
+                                ManagerData.add(userInput);
                             }
-                            method.exit();
-                            a++;
-                            break;
-
-                            case 2:
-                            System.out.println("Please enter the the necessary information regarding your vehicle.\n\n");
-                            String[] VehicleOutput = {"Truck Owner First Name:", "Truck Owner Last Name:", "Age:", "Email:", "Address:", "Contact No:", "Name of Insurance:"}; //Used in order to create preset questions to be printed out
-
-                            while (userChoice != 0) 
+                            StringBuffer stuff = new StringBuffer();
+                            for (String s : ManagerData) {
+                                stuff.append(s);
+                                stuff.append(" ");
+                            }
+                            String str = stuff.toString();
+                            ManagerLogs.add(str);
+                            System.out.println("Is the following information correct?");
+                            System.out.println(ManagerLogs.get(a)); 
+                            System.out.print("\n\nEnter 1 if you would like to restart and change any wrong information or enter 0 to continue: ");
+                            userChoice = method.verifyInputInt(0, 1);
+                            if (userChoice == 1)
                             {
-                                String bString = Integer.toString(b);
-                                VehicleData.add(0,  bString);
-                                for (int i = 0; i < 7; i++){
-                                    System.out.println(VehicleOutput[i]);
-                                    if (i == 5 || i == 2) 
-                                    {
-                                        userInput = method.verifyInput();
-                                    }
-                                    else
-                                    {
-                                        userInput = ue.next();
-                                    }
-                                    VehicleData.add(userInput);
-                                }
-                                VehicleData.add("Active");
-                                StringBuffer stuff = new StringBuffer();
-                                for (String s : VehicleData) {
-                                    stuff.append(s);
-                                    stuff.append(" ");
-                                 }
-                                 String str = stuff.toString();
-                                VehicleLogs.add(str);
-                                System.out.println("Is the following information correct?");
-                                System.out.println(VehicleLogs.get(b)); //Think just need to screenshot dy 
-                                System.out.print("\n\nEnter 1 if you would like to restart and change any wrong information or enter 0 to continue: ");
-                                userChoice = method.verifyInputInt(0, 1);
-                                if (userChoice == 1)
-                                {
-                                    VehicleLogs.remove(b);
-                                    VehicleData.clear();
-                                }
-                                VehicleData.clear();
-
+                                ManagerLogs.remove(a);
+                                ManagerData.clear();
                             }
-                            method.exit();
-                            b++;
-                            break;
-
-                            case 3:
-                            if(b > 0)
-                            {
-                                for (int i = 0; i < b; i++) 
-                                {
-                                    System.out.println(VehicleLogs.get(i));
-                                }
-                                method.exit();
-                                break;
-                            }
-                            else 
-                            {
-                                System.out.println("No trucks have been registered in the system yet.");
-                                method.exit();
-                            }
-                            break;
-
-                            case 4:
-                            if (b > 0)
-                            {
-                                for (int i = 0; i < b; i++) 
-                                {
-                                    System.out.println(VehicleLogs.get(i));
-                                }
-                                System.out.println("Which truck do you wish to declare inactive?");
-                                userAnswer = method.verifyInputInt(0, b - 1);
-                                String[] Array = VehicleLogs.get(userAnswer).split(" ");
-                                System.out.println(Array);
-                                VehicleData.clear();
-                                for (int i = 0; i < 8; i++)
-                                {
-                                    VehicleData.add(Array[i]);
-                                }
-                                VehicleData.add("Inactive");
-                                StringBuffer stuff = new StringBuffer();
-                                for (String s : VehicleData) {
-                                    stuff.append(s);
-                                    stuff.append(" ");
-                                 }
-                                 String str = stuff.toString();
-                                VehicleLogs.set(userAnswer, str);
-                             
-                                System.out.println("Status has been changed successfully.");
-                                method.exit();
-                                break;
-                            }
-                            else 
-                            {
-                                System.out.println("No trucks have been registered in the system yet.");
-                                method.exit();
-                            }
-                            break;
-
-                            case 5:
-                            if (b > 0)
-                            {
-                                for (int i = 0; i < b; i++) 
-                                {
-                                    System.out.println(VehicleLogs.get(i));
-                                }
-                                System.out.println("Which truck do you wish to declare active?");
-                                userAnswer = method.verifyInputInt(0, b - 1);
-                                String[] Array = VehicleLogs.get(userAnswer).split(" ");
-                                System.out.println(Array);
-                                VehicleData.clear();
-                                for (int i = 0; i < 8; i++)
-                                {
-                                    VehicleData.add(Array[i]);
-                                }
-                                VehicleData.add("Active");
-                                StringBuffer stuff = new StringBuffer();
-                                for (String s : VehicleData) {
-                                    stuff.append(s);
-                                    stuff.append(" ");
-                                 }
-                                 String str = stuff.toString();
-                                VehicleLogs.set(userAnswer, str);
-                             
-                                System.out.println("Status has been changed successfully.");
-                                method.exit();
-                                break;
-                            }
-                            else 
-                            {
-                                System.out.println("No trucks have been registered in the system yet.");
-                                method.exit();
-                            }
-                            break;
-
-                            case 6:
-
 
                         }
+                        method.exit();
+                        a++;
+                        break;
+
+                        case 2:
+                        System.out.println("Please enter the the necessary information regarding your vehicle.\n\n");
+                        String[] VehicleOutput = {"Truck Owner First Name:", "Truck Owner Last Name:", "Age:", "Email:", "Address:", "Contact No:", "Name of Insurance:", "Branch Number"}; //Used in order to create preset questions to be printed out
+
+                        while (userChoice != 0) 
+                        {
+                            String bString = Integer.toString(b);
+                            VehicleData.add(0,  bString);
+                            for (int i = 0; i < 8; i++){
+                                System.out.println(VehicleOutput[i]);
+                                if (i == 5 || i == 2) 
+                                {
+                                    userInput = method.verifyInput();
+                                }
+                                else
+                                {
+                                    userInput = ue.next();
+                                }
+                                VehicleData.add(userInput);
+                            }
+                            VehicleData.add("Active");
+                            StringBuffer stuff = new StringBuffer();
+                            for (String s : VehicleData) {
+                                stuff.append(s);
+                                stuff.append(" ");
+                                }
+                                String str = stuff.toString();
+                            VehicleLogs.add(str);
+                            System.out.println("Is the following information correct?");
+                            System.out.println(VehicleLogs.get(b)); //Think just need to screenshot dy 
+                            System.out.print("\n\nEnter 1 if you would like to restart and change any wrong information or enter 0 to continue: ");
+                            userChoice = method.verifyInputInt(0, 1);
+                            if (userChoice == 1)
+                            {
+                                VehicleLogs.remove(b);
+                                VehicleData.clear();
+                            }
+                            VehicleData.clear();
+
+                        }
+                        method.exit();
+                        b++;
+                        break;
+
+                        case 3:
+                        if(b > 0)
+                        {
+                            for (int i = 0; i < b; i++) 
+                            {
+                                System.out.println(VehicleLogs.get(i));
+                            }
+                            method.exit();
+                            break;
+                        }
+                        else 
+                        {
+                            System.out.println("No trucks have been registered in the system yet.");
+                            method.exit();
+                        }
+                        break;
+
+                        case 4:
+                        if (b > 0)
+                        {
+                            for (int i = 0; i < b; i++) 
+                            {
+                                System.out.println(VehicleLogs.get(i));
+                            }
+                            System.out.println("Which truck do you wish to declare inactive?");
+                            userAnswer = method.verifyInputInt(0, b - 1);
+                            String[] Array = VehicleLogs.get(userAnswer).split(" ");
+                            System.out.println(Array);
+                            VehicleData.clear();
+                            for (int i = 0; i < 9; i++)
+                            {
+                                VehicleData.add(Array[i]);
+                            }
+                            VehicleData.add("Inactive");
+                            StringBuffer stuff = new StringBuffer();
+                            for (String s : VehicleData) {
+                                stuff.append(s);
+                                stuff.append(" ");
+                                }
+                                String str = stuff.toString();
+                            VehicleLogs.set(userAnswer, str);
+                            
+                            System.out.println("Status has been changed successfully.");
+                            method.exit();
+                            break;
+                        }
+                        else 
+                        {
+                            System.out.println("No trucks have been registered in the system yet.");
+                            method.exit();
+                        }
+                        break;
+
+                        case 5:
+                        if (b > 0)
+                        {
+                            for (int i = 0; i < b; i++) 
+                            {
+                                System.out.println(VehicleLogs.get(i));
+                            }
+                            System.out.println("Which truck do you wish to declare active?");
+                            userAnswer = method.verifyInputInt(0, b - 1);
+                            String[] Array = VehicleLogs.get(userAnswer).split(" ");
+                            System.out.println(Array);
+                            VehicleData.clear();
+                            for (int i = 0; i < 9; i++)
+                            {
+                                VehicleData.add(Array[i]);
+                            }
+                            VehicleData.add("Active");
+                            StringBuffer stuff = new StringBuffer();
+                            for (String s : VehicleData) {
+                                stuff.append(s);
+                                stuff.append(" ");
+                                }
+                                String str = stuff.toString();
+                            VehicleLogs.set(userAnswer, str);
+                            
+                            System.out.println("Status has been changed successfully.");
+                            method.exit();
+                            break;
+                        }
+                        else 
+                        {
+                            System.out.println("No trucks have been registered in the system yet.");
+                            method.exit();
+                        }
+                        break;
+
+                        case 6:
+
+                        case 7:
+                        if(a > 0)
+                        {
+                            for (int i = 0; i < a; i++) 
+                            {
+                                System.out.println(ManagerLogs.get(i));
+                            }
+                            method.exit();
+                            break;
+                        }
+                        else 
+                        {
+                            System.out.println("No managers have been registered in the system yet.");
+                            method.exit();
+                        }
+                        break;
+
+
+                    }
                 }
+                break;
+
+                case 2:
+                System.out.println("Please enter your name: ");
+                String userEntry = ue.next();
+                for (int i = 0; i <= b; i++)
+                    {
+                    String[] Array = ManagerLogs.get(i).split(" ");
+                    if (userEntry.equals(Array [9]))
+                    {
+                        nameFlag = 1;
+                    }
+                }
+                while (nameFlag != 1)
+                {
+                    System.out.println("Please enter a correct username or enter 0 to return to the main menu: ");
+                    userEntry = ue.next();
+                    for (int i = 0; i <= b; i++)
+                    {
+                        String[] Array = ManagerLogs.get(i).split(" ");
+                        if (userEntry.equals(Array [9]))
+                        {
+                            nameFlag = 1;
+                        }
+                    }
+                    if (userEntry.equals("0") == true) 
+                    {
+                        break;
+                    }
+                }
+
+                while (userAnswer3 != 0)
+                {
+                    System.out.println("1. Search truck\n2. Deactivate truck\n3. Reactivate truck\n4. Number of trucks in branch\n5. Output comparisons\n6. Contact administrator\n0. Exit");
+
+                    userAnswer3 = method.verifyInputInt(0, 5);
+
+                    switch (userAnswer3)
+                    {
+                        case 1:
+                        if(b > 0)
+                        {
+                            for (int i = 0; i < b; i++) 
+                            {
+                                System.out.println(VehicleLogs.get(i));
+                            }
+                            method.exit();
+                            break;
+                        }
+                        else 
+                        {
+                            System.out.println("No trucks have been registered in the system yet.");
+                            method.exit();
+                        }
+                        break;
+
+                        case 2:
+                        if (b > 0)
+                        {
+                            for (int i = 0; i < b; i++) 
+                            {
+                                System.out.println(VehicleLogs.get(i));
+                            }
+                            System.out.println("Which truck do you wish to declare inactive?");
+                            userAnswer = method.verifyInputInt(0, b - 1);
+                            String[] Array = VehicleLogs.get(userAnswer).split(" ");
+                            System.out.println(Array);
+                            VehicleData.clear();
+                            for (int i = 0; i < 9; i++)
+                            {
+                                VehicleData.add(Array[i]);
+                            }
+                            VehicleData.add("Inactive");
+                            StringBuffer stuff = new StringBuffer();
+                            for (String s : VehicleData) {
+                                stuff.append(s);
+                                stuff.append(" ");
+                                }
+                                String str = stuff.toString();
+                            VehicleLogs.set(userAnswer, str);
+                            
+                            System.out.println("Status has been changed successfully.");
+                            method.exit();
+                            break;
+                        }
+                        else 
+                        {
+                            System.out.println("No trucks have been registered in the system yet.");
+                            method.exit();
+                        }
+                        break;
+
+                        case 3:
+                        if (b > 0)
+                        {
+                            for (int i = 0; i < b; i++) 
+                            {
+                                System.out.println(VehicleLogs.get(i));
+                            }
+                            System.out.println("Which truck do you wish to declare active?");
+                            userAnswer = method.verifyInputInt(0, b - 1);
+                            String[] Array = VehicleLogs.get(userAnswer).split(" ");
+                            System.out.println(Array);
+                            VehicleData.clear();
+                            for (int i = 0; i < 9; i++)
+                            {
+                                VehicleData.add(Array[i]);
+                            }
+                            VehicleData.add("Active");
+                            StringBuffer stuff = new StringBuffer();
+                            for (String s : VehicleData) {
+                                stuff.append(s);
+                                stuff.append(" ");
+                                }
+                                String str = stuff.toString();
+                            VehicleLogs.set(userAnswer, str);
+                            
+                            System.out.println("Status has been changed successfully.");
+                            method.exit();
+                            break;
+                        }
+                        else 
+                        {
+                            System.out.println("No trucks have been registered in the system yet.");
+                            method.exit();
+                        }
+                        break;
+
+                        case 4:
+                        
+
+
+                    }
+                }
+
+                case 3:
+                    System.out.println("Please enter your first name:");
+                    userInput = ue.next();
+                    VisitorLogs.add(userInput);
+                    System.out.println("Please enter your last name:");
+                    userInput = ue.next();
+                    VisitorLogs.add(userInput);
+                    System.out.println("1. View trucks\n2. Services\n3. Contact administrator")
+                    switch (userAnswer4)
+                    {
+
+                    }
+
 
 
             }
