@@ -1,8 +1,7 @@
-package FinalExamJava;
+package Life.FinalExamJava;
 
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class SectionA {
@@ -13,27 +12,31 @@ public class SectionA {
         SectionA method = new SectionA();
         
         String userInput = "", password, adminPassword = "1EE7"; 
-        int userChoice = 1, userAnswer1 = 10, userAnswer2 = 10, userAnswer3 = 10, a = 0, b=0, userAnswer, nameFlag = 0, userAnswer4 = 10, count = 0, branch1 = 0, branch2 = 0, branch3 = 0, branch4 = 0, branch5 = 0;
+        int userChoice = 1, userAnswer1 = 10, userAnswer2 = 10, userAnswer3 = 10, a = 0, b=0, c = 0, d = 0, e = 0, userAnswer, nameFlag = 0, userAnswer4 = 10, count = 0, branch1 = 0, branch2 = 0, branch3 = 0, branch4 = 0, branch5 = 0;
         ArrayList<String> VehicleData = new ArrayList<String>(); //User to store specific parts of user data; names, age, email, etc.
         ArrayList<String> VehicleLogs = new ArrayList<String>(); //Used in order to store entirety of user data
         ArrayList<String> ManagerData = new ArrayList<String>(); //User to store specific parts of user data; names, age, email, etc.
         ArrayList<String> ManagerLogs = new ArrayList<String>(); //Used in order to store entirety of user data
         ArrayList<String> ManagerContactLogs = new ArrayList<String>();
         ArrayList<String> VisitorData = new ArrayList<String>();
+        ArrayList<String> VisitorLogs = new ArrayList<String>();
         ArrayList<String> VisitorContactLogs = new ArrayList<String>();
-        String[] Array, Array2;
+        String[] Array = {}, Array2;
+        userAnswer1 = 1;
 
         Scanner ue = new Scanner (System.in);
-        System.out.println("Welcome to ABC Transportation Vehicle Registry!\n\n");
         while (userAnswer1 != 0) 
         {
+            clearTerminal();
             userAnswer2 = 1;
+            System.out.println("Welcome to ABC Transportation Vehicle Registry!\n\n");
             System.out.println("1. Log in as Admin\n2. Log in as Manager\n3. Log in as Visitor\n0. Exit");
             userAnswer1 = method.verifyInputInt(0, 3);
 
             switch (userAnswer1) 
             {
                 case 1:      
+                clearTerminal();
                 System.out.println("Password: ");
                 password = ue.next();
                 if (!password.equals(adminPassword)){
@@ -47,14 +50,20 @@ public class SectionA {
                         };
                     }
                 }   
+                if (password.equals("0")) 
+                    {
+                        break;
+                    };
                 while (userAnswer2 != 0)
                 {
+                    clearTerminal();
                     userChoice = 1;
                     System.out.println("\n1. Create Manager\n2. New Truck\n3. Search Truck\n4. Deactivate Truck Status\n5. Reactivate Truck Status\n6. Contact Requests\n7. View Managers\n0. Return to log in menu\n");
                     userAnswer2 = method.verifyInputInt(0, 7);
                     switch (userAnswer2) 
                     {
                         case 1:
+                        clearTerminal();
                         String[] ManagerOutput = {"Date of Joining: ", "Salary: ", "First Name: ", "Last Name: ", "Age: ", "Email: ", 
                         "Address: ", "Contact No. :", "Username: ", "Branch Number: "};
 
@@ -71,7 +80,7 @@ public class SectionA {
                                 }
                                 else if (i == 10)
                                 {
-                                    while (Integer.parseInt(userInput) < 0 && Integer.parseInt(userInput) > 5)
+                                    while (Integer.parseInt(userInput) < 0 || Integer.parseInt(userInput) > 5)
                                     {
                                         userInput = method.verifyInput();
                                     }
@@ -98,6 +107,7 @@ public class SectionA {
                                 ManagerLogs.remove(a);
                                 ManagerData.clear();
                             }
+                            ManagerData.clear();
 
                         }
                         method.exit();
@@ -105,6 +115,7 @@ public class SectionA {
                         break;
 
                         case 2:
+                        clearTerminal();
                         System.out.println("Please enter the the necessary information regarding your vehicle.\n\n");
                         String[] VehicleOutput = {"Truck Owner First Name:", "Truck Owner Last Name:", "Age:", "Email:", "Address:", "Contact No:", "Name of Insurance:", "Branch Number"}; //Used in order to create preset questions to be printed out
 
@@ -149,6 +160,7 @@ public class SectionA {
                         break;
 
                         case 3:
+                        clearTerminal();
                         if(b > 0)
                         {
                             for (int i = 0; i < b; i++) 
@@ -166,6 +178,7 @@ public class SectionA {
                         break;
 
                         case 4:
+                        clearTerminal();
                         if (b > 0)
                         {
                             for (int i = 0; i < b; i++) 
@@ -202,6 +215,7 @@ public class SectionA {
                         break;
 
                         case 5:
+                        clearTerminal();
                         if (b > 0)
                         {
                             for (int i = 0; i < b; i++) 
@@ -238,8 +252,36 @@ public class SectionA {
                         break;
 
                         case 6:
+                        clearTerminal();
+                        if (c > 0)
+                        {
+                            System.out.println("Manager Contact Logs:");
+                            for (int i = 0; i < c; i++)
+                            {
+                            System.out.println(ManagerContactLogs.get(i));   
+                            }
+                        }
+                        if (d > 0)
+                        {
+                            System.out.println("Visitor Contact Logs:");
+                            for (int i = 0; i < d; i++)
+                            {
+                            System.out.println(VisitorContactLogs.get(i));   
+                            }
+                        }
+                        if (c == 0)
+                        {
+                            System.out.println("No manager has attempted to contact the administrator at this time.\n");
+                        }
+                        if (d == 0)
+                        {
+                            System.out.println("No visitor has attempted to contact the administrator at this time.\n");
+                        }
+                        method.exit();
+                        break;
 
                         case 7:
+                        clearTerminal();
                         if(a > 0)
                         {
                             for (int i = 0; i < a; i++) 
@@ -262,6 +304,14 @@ public class SectionA {
                 break;
 
                 case 2:
+                nameFlag = 0;
+                if (a == 0)
+                {
+                    clearTerminal();
+                    System.out.println("No manager has been created yet, please contact the administrator for assistance.");
+                    method.exit();
+                    break;
+                }
                 System.out.println("Please enter your username: ");
                 String userEntry = ue.next();
                 if (0 < a)
@@ -269,48 +319,34 @@ public class SectionA {
 
                     while (nameFlag != 1)
                     {
-                        for (int i = 0; i <= a; i++)
+                        for (int i = 0; i < a; i++)
                             {
                             Array = ManagerLogs.get(i).split(" ");
+                            System.out.println(Array [9]);
                             if (userEntry.equals(Array [9]))
                             {
                                 nameFlag = 1;
                             }
-                            a = i;
+                            e = i;
                         }
-                    }
-                    while (nameFlag != 1)
-                    {
-                        System.out.println("Please enter a correct username or enter 0 to return to the main menu: ");
-                        userEntry = ue.next();
-                        for (int i = 0; i <= a; i++)
+                        if (nameFlag != 1)
                         {
-                            Array = ManagerLogs.get(i).split(" ");
-                            if (userEntry.equals(Array [9]))
-                            {
-                                nameFlag = 1;
-                            }
-                            a = i;
-                        }
-                        if (userEntry.equals("0") == true) 
-                        {
+                            System.out.println("Please enter a correct username.");
                             break;
                         }
                     }
                 }
-                else
-                {
-                    break;
-                }
                 while (userAnswer3 != 0)
                 {
+                    clearTerminal();
                     System.out.println("1. Search truck\n2. Deactivate truck\n3. Reactivate truck\n4. Number of trucks in branch\n5. Output comparisons\n6. Contact administrator\n0. Exit");
 
-                    userAnswer3 = method.verifyInputInt(0, 5);
+                    userAnswer3 = method.verifyInputInt(0, 6);
 
                     switch (userAnswer3)
                     {
                         case 1:
+                        clearTerminal();
                         if(b > 0)
                         {
                             for (int i = 0; i < b; i++) 
@@ -328,6 +364,7 @@ public class SectionA {
                         break;
 
                         case 2:
+                        clearTerminal();
                         if (b > 0)
                         {
                             for (int i = 0; i < b; i++) 
@@ -363,6 +400,7 @@ public class SectionA {
                         break;
 
                         case 3:
+                        clearTerminal();
                         if (b > 0)
                         {
                             for (int i = 0; i < b; i++) 
@@ -398,9 +436,10 @@ public class SectionA {
                         break;
 
                         case 4:
+                        clearTerminal();
                         for (int i = 0; i < b; i++)
                         {
-                            Array = ManagerLogs.get(a).split(" ");
+                            Array = ManagerLogs.get(e).split(" ");
                             Array2 = VehicleLogs.get(i).split(" ");
                             if (Array2[8].equals(Array [10]))
                             {
@@ -413,6 +452,7 @@ public class SectionA {
 
 
                         case 5:
+                        clearTerminal();
                         for (int i = 0; i < b; i++)
                         {
                             Array2 = VehicleLogs.get(i).split(" ");
@@ -453,71 +493,116 @@ public class SectionA {
                                 branch5++;
                             }
                         }
+
+                        System.out.println ("Branch 1: " + branch1 + "\nBranch 2: " + branch2 + "\nBranch 3: " + branch3 + "\nBranch 4: " + branch4 + "\nBranch 5: " + branch5);
+                        method.exit();
+                        break;
                         
 
                         case 6:
+                        clearTerminal();
+                        System.out.println("Your attempt to contact the administrator has been saved and the administrator has been notified.");
+                        String loggingData = ManagerLogs.get(e);
+                        ManagerContactLogs.add(loggingData);
+                        c++;
+                        method.exit();
+                        break;
+
+                        case 0:
+                            break;
                         
 
 
                     }
                 }
+                break;
 
                 case 3:
-                    System.out.println("Please enter your first name:");
-                    userInput = ue.next();
-                    VisitorData.add(userInput);
-                    System.out.println("Please enter your last name:");
-                    userInput = ue.next();
-                    VisitorData.add(userInput);
+                clearTerminal();
+                VisitorData.clear();
+                System.out.println("Please enter your first name:");
+                userInput = ue.next();
+                VisitorData.add(userInput);
+                System.out.println("Please enter your last name:");
+                userInput = ue.next();
+                VisitorData.add(userInput);
+                System.out.println("Please enter your phone number:");
+                userInput = method.verifyInput();
+                VisitorData.add(userInput);
+                StringBuffer stuff = new StringBuffer();
+                for (String s : VisitorData) 
+                {
+                    stuff.append(s);
+                    stuff.append(" ");
+                }
+                String str = stuff.toString();
+                VisitorLogs.add(str);
 
-                    while (userAnswer4!=0)
+                userAnswer4 = 1;
+
+                while (userAnswer4!=0)
+                    {
+                    clearTerminal();    
+                    System.out.println("1. View trucks\n2. View services\n3. Contact administrator\n0. Exit");
+
+                    userAnswer4 = method.verifyInputInt(0, 3);
+
+                    switch (userAnswer4)
+                    {
+                        case 1:
+                        clearTerminal();
+                        if(b > 0)
                         {
-                        System.out.println("1. View trucks\n2. Services\n3. Contact administrator\n0. Exit");
-
-                        userAnswer4 = method.verifyInputInt(0, 3);
-
-                        switch (userAnswer4)
-                        {
-                            case 1:
-                            if(b > 0)
+                            for (int i = 0; i < b; i++) 
                             {
-                                for (int i = 0; i < b; i++) 
-                                {
-                                    System.out.println(VehicleLogs.get(i));
-                                }
-                                method.exit();
-                                break;
+                                System.out.println(VehicleLogs.get(i));
                             }
-                            else 
-                            {
-                                System.out.println("No trucks have been registered in the system yet.");
-                                method.exit();
-                                break;
-                            }
-
-                            case 2:
-                            if(b > 0)
-                            {
-                                for (int i = 0; i < b; i++) 
-                                {
-                                    System.out.println(VehicleLogs.get(i));
-                                }
-                                method.exit();
-                                break;
-                            }
-                            else 
-                            {
-                                System.out.println("No trucks have been registered in the system yet.");
-                                method.exit();
-                                break;
-                            }
-
-
-                            case 3:
-
+                            method.exit();
+                            break;
                         }
-                    }
+                        else 
+                        {
+                            System.out.println("No trucks have been registered in the system yet.");
+                            method.exit();
+                            break;
+                        }
 
+                        case 2:
+                        clearTerminal();
+                        if(b > 0)
+                        {
+                            for (int i = 0; i < b; i++) 
+                            {
+                                System.out.println(VehicleLogs.get(i));
+                            }
+                            method.exit();
+                            break;
+                        }
+                        else 
+                        {
+                            System.out.println("No trucks have been registered in the system yet.");
+                            method.exit();
+                            break;
+                        }
+
+                        case 3:
+                        clearTerminal();
+                        System.out.println("Your attempt to contact the administrator has been saved and the administrator has been notified.");
+                        String loggingData = VisitorLogs.get(d);
+                        VisitorContactLogs.add(loggingData);
+                        d++;
+                        method.exit();
+                        break;
+
+
+                        case 0:
+                        clearTerminal();
+                        break;
+
+                    }
+                }
+                break;
+                    
 
 
             }
@@ -586,6 +671,10 @@ public class SectionA {
         userInput = verifyInputInt(0, 0);
     }
 
+    static void clearTerminal(){        
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
     
     
